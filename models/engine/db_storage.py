@@ -83,7 +83,7 @@ class DBStorage:
             all_obj = self.all(cls)
             for clss in classes:
                 if cls is classes[clss] or cls is clss:
-                    fetch = "{}.{}".format(clss.key, id)
+                    fetch = "{}.{}".format(clss, id)
                     return all_obj.get(fetch)
         return None
 
