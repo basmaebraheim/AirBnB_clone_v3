@@ -78,6 +78,7 @@ class FileStorage:
             for clss in classes:
                 if cls is classes[clss] or cls is clss:
                     fetch = "{}.{}".format(clss.key, id)
+                    print(fetch)
                     return all_obj.get(fetch)
         return None
 
