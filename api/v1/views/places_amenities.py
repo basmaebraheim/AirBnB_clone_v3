@@ -2,10 +2,8 @@
 """places_amenities.py"""
 import os
 from api.v1.views import app_views
-from flask import abort, jsonify, make_response, request
+from flask import abort, jsonify, make_response
 from models import storage
-from models.amenity import Amenity
-from models.place import Place
 
 
 @app_views.route('/places/<string:place_id>/amenities', methods=['GET'],

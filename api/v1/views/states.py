@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""handles all default RESTFul API actions fror state"""
+"""states apis"""
 
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
@@ -9,7 +9,7 @@ from models.state import State
 
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
-    """Retrieves the list of all State"""
+    """retrieves state information for all states"""
     states = []
     for state in storage.all("State").values():
         states.append(state.to_dict())
@@ -19,7 +19,7 @@ def get_states():
 @app_views.route('/states/<string:state_id>', methods=['GET'],
                  strict_slashes=False)
 def get_state(state_id):
-    """Retrieves a State object by id"""
+    """Retrieves state information for specified state"""
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
@@ -29,7 +29,7 @@ def get_state(state_id):
 @app_views.route('/states/<string:state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
-    """deletes a state with id"""
+    """deletes a state based on its state_id"""
     state = storage.get("State", state_id)
     if state is None:
         abort(404)
