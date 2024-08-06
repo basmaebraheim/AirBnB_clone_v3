@@ -67,27 +67,31 @@ test_db_storage.py'])
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
 
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
     def test_get(self):
-        '''
-            Test if get method retrieves obj requested
-        '''
-        new_state = State(name="state1")
-        db_storage.new(new_state)
-        result = db_storage.get("State", new_state.id)
-        self.assertTrue(result.id, new_state.id)
-        self.assertIsInstance(result, State)
+        """Test that get returns same added object"""
+        new_state = State(name="New York")
+        new_state.save()
+        new_user = User(email="basma", password="password")
+        new_user.save()
+        self.assertIs(new_state, models.storage.get("State", new_state.id))
+        self.assertIs(None, models.storage.get("State", "xxx"))
+        self.assertIs(None, models.storage.get("xxx", "xxx"))
+        self.assertIs(new_user, models.storage.get("User", new_user.id))
 
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
     def test_count(self):
-        '''
-            Test if count method returns expected number of objects
-        '''
-        db_storage.reload()
-        old_count = db_storage.count("State")
-        new_state1 = State(name="state1")
-        db_storage.new(new_state1)
-        new_state2 = State(name="state2")
-        db_storage.new(new_state2)
-        self.assertEqual(old_count + 2, db_storage.count("State"))
+        """test count of added objects"""
+        initial_count = models.storage.count()
+        self.assertEqual(models.storage.count("xxx"), 0)
+        new_state = State(name="Florida")
+        new_state.save()
+        new_user = User(email="bob@foobar.com", password="password")
+        new_user.save()
+        self.assertEqual(models.storage.count("State"), initial_count + 1)
+        self.assertEqual(models.storage.count(), initial_count + 2)
 
 
 class TestFileStorage(unittest.TestCase):
