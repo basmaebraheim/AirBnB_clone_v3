@@ -91,7 +91,8 @@ test_db_storage.py'])
         new_state.save()
         new_user = User(email="bob@foobar.com", password="password")
         new_user.save()
-        self.assertEqual(models.storage.count("State"), initial_state_count + 1)
+        self.assertEqual(models.storage.count("State"),
+                         initial_state_count + 1)
         self.assertEqual(models.storage.count(), initial_count + 2)
 
 
