@@ -85,12 +85,13 @@ test_db_storage.py'])
     def test_count(self):
         """test count of added objects"""
         initial_count = models.storage.count()
+        initial_state_count = models.storage.count("State")
         self.assertEqual(models.storage.count("xxx"), 0)
         new_state = State(name="Florida")
         new_state.save()
         new_user = User(email="bob@foobar.com", password="password")
         new_user.save()
-        self.assertEqual(models.storage.count("State"), initial_count + 1)
+        self.assertEqual(models.storage.count("State"), initial_state_count + 1)
         self.assertEqual(models.storage.count(), initial_count + 2)
 
 
